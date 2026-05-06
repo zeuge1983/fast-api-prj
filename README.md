@@ -10,12 +10,15 @@ This project is a Support Ticket Analyzer built with FastAPI. It processes suppo
 
 ## Features
 
-- **Home Endpoint (`/`)**: API health check.
-- **Generate JSON Report (`/report`)**: Summarizes tickets and saves them into a JSON report.
-- **High Priority Tickets (`/tickets/high`)**: Returns a list of high-priority tickets.
-- **Open Tickets (`/tickets/open`)**: Returns a list of currently open tickets.
-- **Categories (`/categories`)**: Returns the available categories of the support tickets.
-- **Generate CSV Report (`/report/csv`)**: Prepares ticket data and saves it into a CSV report.
+- **Get All Tickets (`GET /tickets`)**: Returns all support tickets.
+- **Get Single Ticket (`GET /tickets/{ticket_id}`)**: Returns a specific ticket by ID.
+- **Get High Priority Tickets (`GET /tickets/high`)**: Returns a list of high-priority tickets.
+- **Get Open Tickets (`GET /tickets/open`)**: Returns a list of currently open tickets.
+- **List Categories (`GET /categories`)**: Returns the available categories of the support tickets.
+- **Analyze Tickets (`POST /analyze`)**: Accepts a list of tickets, normalizes them, and generates a summary report.
+- **Filter Tickets (`POST /tickets/filter`)**: Filters tickets by priority, status, and category.
+- **Generate JSON Report (`GET /report`)**: Summarizes all tickets and saves them into a JSON report.
+- **Generate CSV Report (`GET /report/csv`)**: Prepares ticket data and saves it into a CSV report.
 
 ## Setup Instructions
 
