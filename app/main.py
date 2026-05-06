@@ -1,8 +1,9 @@
 # app/main.py
 
+from fastapi import HTTPException
 from fastapi import FastAPI
 from app.api import load_tickets
-from app.processor import filter_high_priority, summarize_tickets, prepare_tickets_for_csv, filter_open_tickets, get_categories, normalize_tickets, filter_tickets
+from app.processor import filter_high_priority, summarize_tickets, prepare_tickets_for_csv, filter_open_tickets, get_categories, normalize_tickets, filter_tickets, get_ticket
 from app.utils import save_report_json, save_report_csv
 from app.models import TicketList, FilterRequest
 
@@ -11,9 +12,12 @@ app = FastAPI()
 def get_tickets():
     return load_tickets()
 
-@app.get("/")
-def home():
-    return {"message": "Support Ticket Analyzer API"}
+@app.get("/tickets")
+def get_all_tickets():
+    
+    tickets = get_tickets()
+
+    return tickets
 
 @app.get("/report")
 def generate_json_report():
@@ -64,6 +68,17 @@ def analyze_tickets(payload: TicketList):
     save_report_json(report)
 
     return report
+
+@app.get("/tickets/{ticket_id}")
+def get_ticket_by_id(ticket_id: int):
+
+    tickets = get_tickets()
+
+    ticket = get_ticket(tickets, ticket_id)
+
+    if ticket is None:
+        raise HTTPException(status_code=404, detail="Ticket not found")
+    return ticket
 
 @app.post("/tickets/filter")
 def filter_endpoint(payload: FilterRequest):

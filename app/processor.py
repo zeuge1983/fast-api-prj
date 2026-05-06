@@ -52,3 +52,8 @@ def filter_tickets(tickets, priority=None, status=None, category=None):
         result = [t for t in result if t["category"] == category]
 
     return result
+
+def get_ticket(tickets, ticket_id):
+    ticket = next((t for t in tickets if t["ticket_id"] == ticket_id), None)
+
+    return ticket

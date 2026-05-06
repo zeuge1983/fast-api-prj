@@ -33,7 +33,8 @@ This project is a Support Ticket Analyzer built with FastAPI. It processes suppo
 3. **Run the FastAPI application**:
    ```bash
    fastapi dev app/main.py
-   # Or using uvicorn: uvicorn app.main:app --reload
+   # Or using uvicorn app.main:app --reload
+   # Open: http://127.0.0.1:8000/docs
    ```
 
 The API will be available at `http://127.0.0.1:8000`. You can access the interactive API documentation (Swagger UI) at `http://127.0.0.1:8000/docs`.
