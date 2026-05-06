@@ -35,3 +35,20 @@ def filter_open_tickets(tickets):
 
 def get_categories(tickets):
     return list({t["category"] for t in tickets})
+
+def normalize_tickets(ticket_models):
+    return [t.model_dump() for t in ticket_models]
+
+def filter_tickets(tickets, priority=None, status=None, category=None):
+    result = tickets
+
+    if priority:
+        result = [t for t in result if t["priority"] == priority]
+
+    if status:
+        result = [t for t in result if t["status"] == status]
+
+    if category:
+        result = [t for t in result if t["category"] == category]
+
+    return result
