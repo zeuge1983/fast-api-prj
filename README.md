@@ -37,7 +37,7 @@ This project is a Support Ticket Analyzer built with FastAPI. It processes suppo
    ```bash
    fastapi dev app/main.py
    ```
-   # Or using
+   Or using
    ```bash
    uvicorn app.main:app --reload
    http://127.0.0.1:8000/docs
