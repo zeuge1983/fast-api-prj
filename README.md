@@ -72,7 +72,7 @@ CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 ### .dockerignore
 
 ```
-venv/
+.venv/
 __pycache__/
 *.pyc
 *.pyo
@@ -81,7 +81,18 @@ __pycache__/
 output/
 ```
 
-### Build and Run
+### Docker Compose (recommended)
+
+A `docker-compose.yml` is provided. It reads `.env` automatically, so you don't need any `-e` flags.
+
+```bash
+docker compose up --build      # build and start
+docker compose up -d           # start in the background
+docker compose logs -f         # follow logs
+docker compose down            # stop and remove
+```
+
+### Build and Run manually
 
 1. **Build the image**:
    ```bash
@@ -92,16 +103,5 @@ output/
    ```bash
    docker run -p 8000:8000 --env-file .env ticket-api
    ```
-
-### Docker Compose (recommended)
-
-A `docker-compose.yml` is provided. It reads `.env` automatically, so you don't need any `-e` flags.
-
-```bash
-docker compose up --build      # build (if needed) and start
-docker compose up -d            # start in the background
-docker compose logs -f          # follow logs
-docker compose down             # stop and remove
-```
 
 The API will be available at `http://localhost:8000`. Access the interactive API documentation (Swagger UI) at `http://localhost:8000/docs`.
