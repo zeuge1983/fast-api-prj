@@ -19,6 +19,7 @@ This project is a Support Ticket Analyzer built with FastAPI. It processes suppo
 - **Filter Tickets (`POST /tickets/filter`)**: Filters tickets by priority, status, and category.
 - **Generate JSON Report (`GET /report`)**: Summarizes all tickets and saves them into a JSON report.
 - **Generate CSV Report (`GET /report/csv`)**: Prepares ticket data and saves it into a CSV report.
+- **AI Analyze Tickets (`POST /tickets/analyze-ai`)**: Sends tickets to Gemini (`gemini-2.5-flash`) and returns a summary plus insights. Sends loaded tickets by default; pass `{ "tickets": [...] }` in the body to analyze a custom list. Requires the `GEMINI_API_KEY` environment variable.
 
 ## Setup Instructions
 
@@ -87,9 +88,13 @@ output/
    docker build -t ticket-api .
    ```
 
-2. **Run the container**:
+2. **Run the container** (pass your Gemini API key for the AI endpoint):
    ```bash
-   docker run -p 8000:8000 ticket-api
+   docker run -p 8000:8000 -e GEMINI_API_KEY=your_key_here ticket-api
+   ```
+   Or with an env file:
+   ```bash
+   docker run -p 8000:8000 --env-file .env ticket-api
    ```
 
 The API will be available at `http://localhost:8000`. Access the interactive API documentation (Swagger UI) at `http://localhost:8000/docs`.

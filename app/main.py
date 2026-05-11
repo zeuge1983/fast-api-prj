@@ -1,11 +1,15 @@
 # app/main.py
 
+from dotenv import load_dotenv
 from fastapi import HTTPException
 from fastapi import FastAPI
+from app.ai import analyze_tickets_with_ai
 from app.api import load_tickets
 from app.processor import filter_high_priority, summarize_tickets, prepare_tickets_for_csv, filter_open_tickets, get_categories, normalize_tickets, filter_tickets, get_ticket
 from app.utils import save_report_json, save_report_csv
 from app.models import TicketList, FilterRequest
+
+load_dotenv()
 
 app = FastAPI()
 
@@ -68,6 +72,13 @@ def analyze_tickets(payload: TicketList):
     save_report_json(report)
 
     return report
+
+@app.post("/tickets/analyze-ai")
+def analyze_tickets_ai(payload: TicketList | None = None):
+
+    tickets = normalize_tickets(payload.tickets) if payload and payload.tickets else get_tickets()
+
+    return analyze_tickets_with_ai(tickets)
 
 @app.get("/tickets/{ticket_id}")
 def get_ticket_by_id(ticket_id: int):
