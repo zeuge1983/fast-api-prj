@@ -90,11 +90,18 @@ output/
 
 2. **Run the container** (pass your Gemini API key for the AI endpoint):
    ```bash
-   docker run -p 8000:8000 -e GEMINI_API_KEY=your_key_here ticket-api
-   ```
-   Or with an env file:
-   ```bash
    docker run -p 8000:8000 --env-file .env ticket-api
    ```
+
+### Docker Compose (recommended)
+
+A `docker-compose.yml` is provided. It reads `.env` automatically, so you don't need any `-e` flags.
+
+```bash
+docker compose up --build      # build (if needed) and start
+docker compose up -d            # start in the background
+docker compose logs -f          # follow logs
+docker compose down             # stop and remove
+```
 
 The API will be available at `http://localhost:8000`. Access the interactive API documentation (Swagger UI) at `http://localhost:8000/docs`.
