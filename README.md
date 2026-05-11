@@ -44,3 +44,52 @@ This project is a Support Ticket Analyzer built with FastAPI. It processes suppo
    ```
 
 The API will be available at `http://127.0.0.1:8000`. You can access the interactive API documentation (Swagger UI) at `http://127.0.0.1:8000/docs`.
+
+## Docker
+
+### Prerequisites
+
+Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) for your platform (Mac, Windows, or Linux).
+
+### Dockerfile
+
+```dockerfile
+FROM python:3.11
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+EXPOSE 8000
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+```
+
+### .dockerignore
+
+```
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+output/
+```
+
+### Build and Run
+
+1. **Build the image**:
+   ```bash
+   docker build -t ticket-api .
+   ```
+
+2. **Run the container**:
+   ```bash
+   docker run -p 8000:8000 ticket-api
+   ```
+
+The API will be available at `http://localhost:8000`. Access the interactive API documentation (Swagger UI) at `http://localhost:8000/docs`.
