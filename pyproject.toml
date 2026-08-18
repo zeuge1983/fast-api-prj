@@ -1,0 +1,13 @@
+# Pytest configuration lives at the repo root so that:
+#   - `pytest`, `pytest tests/`, and `python -m pytest` all find it
+#   - rootdir stays the project root, which keeps `from app... import` working
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "unit: no model, no network, milliseconds",
+    "live: needs a uvicorn server running on 127.0.0.1:8000",
+    "contract: calls the real local model, slow",
+    "eval: scores output quality, opt-in only",
+]
+# Fast by default. Anything slow or non-deterministic is opt-in via -m.
+addopts = "-m 'not live and not contract and not eval' --strict-markers"

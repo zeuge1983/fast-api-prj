@@ -1,0 +1,7 @@
+{
+  "recorded": "2026-08-18",
+  "model": "meta/muse-glimmer",
+  "input": "two-ticket custom payload",
+  "note": "REAL reply, and an accurate one. Used as the positive control.",
+  "reply": "{\"summary\": \"Two support tickets are currently open. Ticket 1 is a high-priority Billing issue regarding a refund not received after 3 weeks. Ticket 2 is a low-priority Feature Request for dark mode.\", \"insights\": [\"High-priority Billing ticket has been open for ~3 weeks indicating SLA breach and customer satisfaction risk.\", \"Feature Request ticket is low priority and non-urgent, suitable for backlog grooming.\"], \"top_categories\": [\"Billing\", \"Feature Request\"], \"recommended_actions\": [\"Escalate ticket 1 to Billing team for immediate refund investigation.\", \"Route dark mode request to product team for roadmap evaluation.\"]}"
+}

@@ -1,0 +1,7 @@
+{
+  "recorded": "2026-08-18",
+  "model": "meta/muse-glimmer",
+  "input": "all 12 tickets from data/support_tickets.csv",
+  "note": "REAL reply. Contains a genuine hallucination: claims 11 tickets when 12 were supplied. Every other figure in it is correct.",
+  "reply": "{\"summary\": \"There are 11 tickets in total with 7 open, 2 in progress and 3 closed. Five tickets are high priority, concentrated in Billing, Login, Bug and UI categories. Alice Anderson has 5 tickets, Bob Brown has 4 and Carol Clark has 3, indicating repeat contacts. Closed items are low priority onboarding, UI and search requests.\", \"insights\": [\"5 high-priority tickets remain open, including 2 billing issues for Bob Brown.\", \"Bug category has 2 open tickets affecting API stability and CSV export functionality.\"], \"top_categories\": [\"Billing\", \"Bug\", \"UI\", \"Login\"], \"recommended_actions\": [\"Escalate and resolve high-priority open billing tickets 123 and 1002 immediately\", \"Prioritize fixes for API 500 on empty payload and non-functional CSV export\"]}"
+}

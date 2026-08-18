@@ -6,4 +6,4 @@ pydantic
 fastapi
 uvicorn[standard]
 pandas
-google-genai
+openai

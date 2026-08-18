@@ -1,11 +1,13 @@
-ticket_id,title,priority,category,status,description
-1001,Cannot log in,High,Login,Open,User cannot log in after password reset.
-1002,Payment failed,High,Billing,Open,Credit card payment fails with error 502.
-1003,Page loads slowly,Medium,Performance,In Progress,Dashboard page takes more than 10 seconds to load.
-1004,Typo on homepage,Low,UI,Closed,Homepage banner contains a spelling mistake.
-1005,API returns 500,High,Bug,Open,Internal API crashes when sending empty payload.
-1006,Feature request: dark mode,Low,Feature Request,Open,Customer would like a dark mode option.
-1007,Password reset email missing,Medium,Email,In Progress,Reset email is not received by several users.
-1008,Export to CSV not working,Medium,Bug,Open,CSV export button does nothing.
-1009,Mobile layout broken,High,UI,Open,Buttons overlap on smaller screens.
-1010,Search returns wrong results,Medium,Search,Closed,Search function returns unrelated items.
+ticket_id,title,priority,category,status,description,customer_id,customer_name,customer_email
+1,Welcome ticket,Low,Onboarding,Closed,First ticket created during onboarding.,1,Alice Anderson,alice@example.com
+123,Invoice discrepancy,High,Billing,Open,Invoice total does not match the order.,2,Bob Brown,bob@example.com
+1001,Cannot log in,High,Login,Open,User cannot log in after password reset.,1,Alice Anderson,alice@example.com
+1002,Payment failed,High,Billing,Open,Credit card payment fails with error 502.,2,Bob Brown,bob@example.com
+1003,Page loads slowly,Medium,Performance,In Progress,Dashboard page takes more than 10 seconds to load.,3,Carol Clark,carol@example.com
+1004,Typo on homepage,Low,UI,Closed,Homepage banner contains a spelling mistake.,1,Alice Anderson,alice@example.com
+1005,API returns 500,High,Bug,Open,Internal API crashes when sending empty payload.,3,Carol Clark,carol@example.com
+1006,Feature request: dark mode,Low,Feature Request,Open,Customer would like a dark mode option.,2,Bob Brown,bob@example.com
+1007,Password reset email missing,Medium,Email,In Progress,Reset email is not received by several users.,1,Alice Anderson,alice@example.com
+1008,Export to CSV not working,Medium,Bug,Open,CSV export button does nothing.,3,Carol Clark,carol@example.com
+1009,Mobile layout broken,High,UI,Open,Buttons overlap on smaller screens.,2,Bob Brown,bob@example.com
+1010,Search returns wrong results,Medium,Search,Closed,Search function returns unrelated items.,1,Alice Anderson,alice@example.com
