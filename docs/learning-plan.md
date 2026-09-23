@@ -69,8 +69,28 @@ Split runtime deps from dev deps. Pin versions with `pip freeze` and understand 
 `fastapi` and `fastapi>=0.110` mean different things.
 
 - **Concepts:** virtualenvs, stdlib vs PyPI, transitive dependencies, `pip freeze`, `pip install -e .`, why `pyproject.toml` is the modern home for all of this
-- **Done when:** `python -m venv /tmp/fresh && /tmp/fresh/bin/pip install -r requirements.txt` followed by `pytest` passes from a clean clone
+- **Done when:** a fresh venv installing `requirements-dev.txt` can run `pytest` green, and a fresh venv installing only `requirements.txt` can serve the app but *cannot* run the tests — that asymmetry is the proof the split is real
 - **Trap:** don't pin everything to exact versions and then never update. Learn the difference between an application (pin hard) and a library (pin loose).
+
+
+Now that I have pip-tools set up, I never need to use
+
+`pip install <package>`
+or
+`pip freeze manually again.`
+
+My workflow is now a 3-step loop:
+
+- Edit: Add or remove top-level packages directly in requirements.in or requirements-dev.in.
+
+- Compile: Run pip-compile requirements.in (and -dev.in) to regenerate the locked .txt files.
+
+`pip-compile requirements.in`
+`pip-compile requirements-dev.in`
+
+- Run pip-sync requirements-dev.txt to instantly apply those changes to your local machine.
+`pip-sync requirements-dev.txt
+pytest
 
 ## P2 · Move the scripts out of the app package
 
@@ -86,8 +106,8 @@ Move both to `scripts/`, wrap the body in `def main():`, and add the
 and why the guard works.
 
 - **Concepts:** modules vs scripts, import side effects, `__name__`, `__init__.py`, `sys.path`, absolute vs relative imports, entry points
-- **Done when:** `python -c "import app.muse"` does nothing at all, and `python scripts/muse.py` still prints the test plan
-- **Trap:** after moving, the `from pathlib import Path` relative path in `muse_tests.py` breaks. Fix it properly with `Path(__file__).resolve().parent.parent` rather than by hardcoding.
+- **Done when:** `python -c "import sys; sys.path.insert(0, 'scripts'); import muse"` produces no output and makes no network call, while `python scripts/muse.py` still prints the test plan. Prove the difference to yourself first: write a two-line file with a `print()` at top level, import it, then move the `print()` inside a `main()` and import it again.
+- **Trap:** the `Path(__file__).parent.parent` in `muse_tests.py` survives this particular move — `app/` and `scripts/` are both one level under the root, so it still resolves to the same place. The fragility is elsewhere: it counts directory levels, so moving the file to `scripts/llm/` would silently point at `scripts/tests/` instead, and `mkdir(exist_ok=True)` would create that wrong directory rather than error. Add `.resolve()` so symlinked checkouts count real levels, and note why `__file__`-relative beats a cwd-relative `Path("tests/...")`: the script then works from any directory you run it in.
 
 ## P3 · Type hints everywhere, then let a checker prove you right
 
