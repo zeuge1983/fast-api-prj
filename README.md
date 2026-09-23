@@ -19,7 +19,7 @@ This project is a Support Ticket Analyzer built with FastAPI. It processes suppo
 - **Filter Tickets (`POST /tickets/filter`)**: Filters tickets by priority, status, and category.
 - **Generate JSON Report (`GET /report`)**: Summarizes all tickets and saves them into a JSON report.
 - **Generate CSV Report (`GET /report/csv`)**: Prepares ticket data and saves it into a CSV report.
-- **AI Analyze Tickets (`POST /tickets/analyze-ai`)**: Sends tickets to a locally running Meta Muse Glimmer model (served by [LM Studio](https://lmstudio.ai/) on its OpenAI-compatible API) and returns a summary plus insights. Sends loaded tickets by default; pass `{ "tickets": [...] }` in the body to analyze a custom list. Requires LM Studio running with the model loaded. Configurable via `MUSE_BASE_URL` (default `http://localhost:1234/v1`), `MUSE_MODEL` (default `meta/muse-glimmer`), `MUSE_API_KEY` (default `lm-studio`) and `MUSE_TIMEOUT` seconds (default `300`).
+- **AI Analyze Tickets (`POST /tickets/analyze-ai`)**: Sends tickets to a locally running Meta Muse Glimmer model (served by [LM Studio](https://lmstudio.ai/) on its OpenAI-compatible API) and returns a summary plus insights. Sends loaded tickets by default; pass `{ "tickets": [...] }` in the body to analyze a custom list. Requires LM Studio running with the model loaded. Configured through `.env` via `LLM_BASE_URL` (default `http://localhost:1234/v1`), `LLM_MODEL` (default `meta/muse-glimmer`), `LLM_API_KEY` (default `lm-studio`), `LLM_TEMPERATURE` (default `0`) and `LLM_TIMEOUT` seconds (default `300`). Any OpenAI-compatible endpoint works; point `LLM_BASE_URL` at a hosted provider to swap off the local model.
 
 ## Setup Instructions
 

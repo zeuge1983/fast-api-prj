@@ -4,15 +4,25 @@ import json
 import os
 from typing import Any
 
+from dotenv import load_dotenv
 from fastapi import HTTPException
 from openai import OpenAI, OpenAIError
 
-# Locally running Meta Muse Glimmer, served by LM Studio's OpenAI-compatible
-# API. All three values can be overridden through the environment.
-BASE_URL = os.environ.get("MUSE_BASE_URL", "http://localhost:1234/v1")
-MODEL = os.environ.get("MUSE_MODEL", "meta/muse-glimmer")
-API_KEY = os.environ.get("MUSE_API_KEY", "lm-studio")
-TIMEOUT = float(os.environ.get("MUSE_TIMEOUT", "300"))
+# Read .env here rather than relying on the caller. These constants are
+# evaluated at import time, and main.py imports this module before it calls
+# load_dotenv(), so waiting for the caller would leave every value below at
+# its default.
+load_dotenv()
+
+# Any OpenAI-compatible endpoint: LM Studio locally, or a hosted provider.
+# Nothing below is specific to a vendor or a model.
+BASE_URL = os.environ.get("LLM_BASE_URL", "http://localhost:1234/v1")
+MODEL = os.environ.get("LLM_MODEL", "meta/muse-glimmer")
+API_KEY = os.environ.get("LLM_API_KEY", "lm-studio")
+TIMEOUT = float(os.environ.get("LLM_TIMEOUT", "300"))
+# 0 keeps replies as repeatable as the server allows, which matters when the
+# output is parsed rather than read.
+TEMPERATURE = float(os.environ.get("LLM_TEMPERATURE", "0"))
 
 PROMPT = """You are a support operations analyst. Given the following support tickets (JSON),
 produce a concise summary and actionable insights.
@@ -33,7 +43,8 @@ after the JSON. Use exactly this shape:
 Tickets:
 """
 
-# LM Studio only accepts response_format types "json_schema" or "text".
+# LM Studio accepts only response_format types "json_schema" or "text",
+# so this stays json_schema rather than the more common json_object.
 RESPONSE_FORMAT = {
     "type": "json_schema",
     "json_schema": {
@@ -92,7 +103,7 @@ def analyze_tickets_with_ai(
     tickets: list[dict[str, Any]],
     client: OpenAI | None = None,
 ) -> dict[str, Any]:
-    """Analyze tickets with the local model.
+    """Analyze tickets with the configured LLM.
 
     `client` exists so tests can pass a stand-in and exercise this function
     without a running model. Production callers leave it as None.
@@ -106,15 +117,16 @@ def analyze_tickets_with_ai(
             model=MODEL,
             messages=[{"role": "user", "content": prompt}],
             response_format=RESPONSE_FORMAT,
+            temperature=TEMPERATURE,
         )
     except OpenAIError as exc:
         raise HTTPException(
             status_code=502,
-            detail=f"Muse request to {BASE_URL} failed: {exc}",
+            detail=f"LLM request to {BASE_URL} failed: {exc}",
         )
 
     if not response.choices:
-        raise HTTPException(status_code=502, detail="Muse returned no choices")
+        raise HTTPException(status_code=502, detail="LLM returned no choices")
 
     text = (response.choices[0].message.content or "").strip()
 
