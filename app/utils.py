@@ -7,12 +7,12 @@ from pathlib import Path
 OUTPUT_DIR = Path(__file__).parent.parent / "output"
 
 
-def save_report_json(report):
+def save_report_json(report: dict) -> None:
     OUTPUT_DIR.mkdir(exist_ok=True)
     with open(OUTPUT_DIR / "report.json", "w") as file:
         json.dump(report, file, indent=4)
 
-def save_report_csv(report):
+def save_report_csv(report: list) -> None:
     OUTPUT_DIR.mkdir(exist_ok=True)
     with open(OUTPUT_DIR / "report.csv", "w", newline="") as file:
         writer = csv.writer(file)

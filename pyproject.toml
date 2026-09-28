@@ -11,3 +11,16 @@ markers = [
 ]
 # Fast by default. Anything slow or non-deterministic is opt-in via -m.
 addopts = "-m 'not live and not contract and not eval' --strict-markers"
+
+# Run with a bare `mypy` from the repo root.
+[tool.mypy]
+python_version = "3.13"
+files = ["app", "scripts"]
+# Teaches mypy about Pydantic's generated __init__ (field names, types).
+plugins = ["pydantic.mypy"]
+# By default mypy silently skips any function without annotations.
+# These two turn "missing signature" into an error:
+#   untyped_defs    -> def f(x):            (no annotations at all)
+#   incomplete_defs -> def f(x: int):       (some annotations, e.g. no return type)
+disallow_untyped_defs = true
+disallow_incomplete_defs = true

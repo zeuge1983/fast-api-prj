@@ -13,7 +13,7 @@ TOKENS = {
 UNAUTHORIZED_HEADERS = {"WWW-Authenticate": "Bearer"}
 
 
-def require_user(authorization: str | None = Header(default=None)):
+def require_user(authorization: str | None = Header(default=None)) -> dict:
     """Resolve the caller from the Authorization header, or raise 401."""
 
     if not authorization:
@@ -44,7 +44,7 @@ def require_user(authorization: str | None = Header(default=None)):
     return user
 
 
-def can_read_ticket(user, ticket):
+def can_read_ticket(user: dict, ticket: dict) -> bool:
     """An agent reads anything; a customer only reads their own tickets."""
 
     if user["role"] == "agent":

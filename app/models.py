@@ -39,7 +39,7 @@ class TicketDetail(BaseModel):
     customer: Customer
 
     @classmethod
-    def from_row(cls, row):
+    def from_row(cls, row: dict) -> "TicketDetail":
         """Build the detail response from a raw CSV row (pandas dict)."""
         return cls(
             id=int(row["ticket_id"]),

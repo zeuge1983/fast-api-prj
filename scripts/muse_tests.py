@@ -5,7 +5,7 @@ from pathlib import Path
 
 from openai import OpenAI
 
-def main():
+def main() -> None:
 
     client = OpenAI(
         base_url="http://localhost:1234/v1",

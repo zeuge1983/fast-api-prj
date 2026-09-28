@@ -2,6 +2,7 @@
 
 import json
 import os
+from openai.types.shared_params import ResponseFormatJSONSchema
 from typing import Any
 
 from dotenv import load_dotenv
@@ -45,7 +46,7 @@ Tickets:
 
 # LM Studio accepts only response_format types "json_schema" or "text",
 # so this stays json_schema rather than the more common json_object.
-RESPONSE_FORMAT = {
+RESPONSE_FORMAT: ResponseFormatJSONSchema = {
     "type": "json_schema",
     "json_schema": {
         "name": "ticket_analysis",

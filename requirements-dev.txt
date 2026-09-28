@@ -15,6 +15,8 @@ anyio==4.15.1
     #   openai
     #   starlette
     #   watchfiles
+ast-serialize==0.11.2
+    # via mypy
 certifi==2026.7.22
     # via
     #   httpcore
@@ -51,14 +53,26 @@ iniconfig==2.3.0
     # via pytest
 jiter==0.17.0
     # via openai
+librt==0.15.0
+    # via mypy
+mypy==2.3.1
+    # via -r requirements-dev.in
+mypy-extensions==1.1.0
+    # via mypy
 numpy==2.5.3
-    # via pandas
+    # via
+    #   pandas
+    #   pandas-stubs
 openai==3.19.0
     # via -r requirements.in
 packaging==26.3
     # via pytest
 pandas==3.0.6
     # via -r requirements.in
+pandas-stubs==3.0.5.260914
+    # via -r requirements-dev.in
+pathspec==1.1.1
+    # via mypy
 pluggy==1.6.0
     # via pytest
 pydantic==2.13.5
@@ -96,6 +110,7 @@ typing-extensions==4.16.0
     # via
     #   anyio
     #   fastapi
+    #   mypy
     #   openai
     #   pydantic
     #   pydantic-core

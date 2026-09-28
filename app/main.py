@@ -18,25 +18,25 @@ app = FastAPI()
 
 
 @app.exception_handler(RequestValidationError)
-def validation_exception_handler(request: Request, exc: RequestValidationError):
+def validation_exception_handler(request: Request, exc: RequestValidationError) -> JSONResponse:
     """Report request validation failures as 400 Bad Request instead of 422."""
     return JSONResponse(
         status_code=400,
         content={"detail": jsonable_encoder(exc.errors())},
     )
 
-def get_tickets():
+def get_tickets() -> list:
     return load_tickets()
 
 @app.get("/tickets")
-def get_all_tickets():
+def get_all_tickets() -> list:
     
     tickets = get_tickets()
 
     return tickets
 
 @app.get("/report")
-def generate_json_report():
+def generate_json_report() -> dict:
 
     report = summarize_tickets(get_tickets())
 
@@ -45,28 +45,28 @@ def generate_json_report():
     return report
 
 @app.get("/tickets/high")
-def get_high_priority_tickets():
+def get_high_priority_tickets() -> list:
 
     high_priority_tickets = filter_high_priority(get_tickets())
 
     return high_priority_tickets
 
 @app.get("/tickets/open")
-def get_open_tickets():
+def get_open_tickets() -> list:
 
     open_tickets = filter_open_tickets(get_tickets())
 
     return open_tickets
 
 @app.get("/categories")
-def list_categories():
+def list_categories() -> list:
 
     categories = get_categories(get_tickets())
 
     return categories
 
 @app.get("/report/csv")
-def generate_csv_report():
+def generate_csv_report() -> dict:
 
     csv_data = prepare_tickets_for_csv(get_tickets())
 
@@ -75,7 +75,7 @@ def generate_csv_report():
     return {"message": "CSV report saved", "total_tickets": len(csv_data)}
 
 @app.post("/analyze")
-def analyze_tickets(payload: TicketList):
+def analyze_tickets(payload: TicketList) -> dict:
 
     tickets = normalize_tickets(payload.tickets)
 
@@ -86,7 +86,7 @@ def analyze_tickets(payload: TicketList):
     return report
 
 @app.post("/tickets/analyze-ai")
-def analyze_tickets_ai(payload: TicketList | None = None):
+def analyze_tickets_ai(payload: TicketList | None = None) -> dict:
 
     tickets = normalize_tickets(payload.tickets) if payload and payload.tickets else get_tickets()
 
@@ -96,7 +96,7 @@ def analyze_tickets_ai(payload: TicketList | None = None):
 def get_ticket_by_id(
     ticket_id: int = Path(gt=0, le=2147483647),
     user: dict = Depends(require_user),
-):
+) -> TicketDetail:
 
     tickets = get_tickets()
 
@@ -111,7 +111,7 @@ def get_ticket_by_id(
     return TicketDetail.from_row(ticket)
 
 @app.post("/tickets/filter")
-def filter_endpoint(payload: FilterRequest):
+def filter_endpoint(payload: FilterRequest) -> dict:
     tickets = normalize_tickets(payload.tickets)
 
     filtered = filter_tickets(
